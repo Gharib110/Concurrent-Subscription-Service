@@ -10,7 +10,6 @@ func (c *Config) Routes() http.Handler {
 	mux := chi.NewRouter()
 
 	mux.Use(middleware.Recoverer)
-
 	mux.Get("/", c.HomePage)
 
 	return mux

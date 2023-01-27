@@ -35,6 +35,8 @@ func main() {
 		ErrLog:  errLogger,
 		Wait:    &wg,
 	}
+
+	serve(&app)
 }
 
 func serve(app *handlers.Config) {
@@ -48,6 +50,7 @@ func serve(app *handlers.Config) {
 		IdleTimeout:       20,
 	}
 
+	app.InfoLog.Println("Web server is started on " + string(WEBPORT))
 	err := srv.ListenAndServe()
 	if err != nil {
 		app.ErrLog.Fatal(err)
