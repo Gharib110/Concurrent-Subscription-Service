@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"sync"
 )
 
@@ -36,12 +37,17 @@ func main() {
 		Wait:    &wg,
 	}
 
-	serve(&app)
+	sigChan := make(chan os.Signal)
+	signal.Notify(sigChan, os.Interrupt, os.Kill)
+
+	go serve(&app)
+
+	<-sigChan
 }
 
 func serve(app *handlers.Config) {
 	srv := &http.Server{
-		Addr:              fmt.Sprintf(":%s", WEBPORT),
+		Addr:              fmt.Sprintf("127.0.0.1:%d", WEBPORT),
 		Handler:           app.Routes(),
 		TLSConfig:         nil,
 		ReadTimeout:       21,
@@ -50,7 +56,7 @@ func serve(app *handlers.Config) {
 		IdleTimeout:       20,
 	}
 
-	app.InfoLog.Println("Web server is started on " + string(WEBPORT))
+	app.InfoLog.Println(fmt.Sprintf("Web server is started on 127.0.0.1:%d", WEBPORT))
 	err := srv.ListenAndServe()
 	if err != nil {
 		app.ErrLog.Fatal(err)
