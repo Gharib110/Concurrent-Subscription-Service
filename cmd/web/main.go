@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/Gharib110/Concurrent-Subscription-Service/data"
 	"github.com/Gharib110/Concurrent-Subscription-Service/handlers"
 	"log"
 	"net/http"
@@ -35,6 +36,7 @@ func main() {
 		InfoLog: infoLogger,
 		ErrLog:  errLogger,
 		Wait:    &wg,
+		Data:    data.New(db),
 	}
 
 	sigChan := make(chan os.Signal)
