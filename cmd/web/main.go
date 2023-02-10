@@ -44,8 +44,8 @@ func main() {
 
 	go serve(&app)
 
-	app.Wait.Wait() // Wait Until all go routines finish their job
 	<-sigChan
+	app.Wait.Wait() // Wait Until all go routines finish their job
 }
 
 func serve(app *handlers.Config) {
