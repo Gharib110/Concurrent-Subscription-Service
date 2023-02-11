@@ -2,6 +2,7 @@ package data
 
 import (
 	"database/sql"
+	"final-project/cmd/web"
 	"time"
 )
 
@@ -15,8 +16,8 @@ func New(dbPool *sql.DB) Models {
 	db = dbPool
 
 	return Models{
-		User: User{},
-		Plan: Plan{},
+		User: &User{},
+		Plan: &Plan{},
 	}
 }
 
@@ -24,6 +25,6 @@ func New(dbPool *sql.DB) Models {
 // in this type is available to us throughout the application, anywhere that the
 // app variable is used, provided that the model is also added in the New function.
 type Models struct {
-	User User
-	Plan Plan
+	User main.UserInterface
+	Plan main.PlanInterface
 }
